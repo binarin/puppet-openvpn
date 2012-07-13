@@ -1,6 +1,6 @@
 # client.pp
 
-define openvpn::client($server, $remote_host = $fqdn) {
+define openvpn::client($server, $remote_host = $fqdn, $proto = 'tcp', $port = '1194') {
     exec {
         "generate certificate for ${name} in context of ${server}":
             command  => ". ./vars && ./pkitool ${name}",
@@ -66,12 +66,12 @@ define openvpn::client($server, $remote_host = $fqdn) {
             server => $server;
         "proto ${server} with ${name}":
             key    => "proto",
-            value  => "tcp",
+            value  => $proto,
             client => $name,
             server => $server;
         "remote ${server} with ${name}":
             key    => "remote",
-            value  => "${remote_host} 1194",
+            value  => "${remote_host} ${port}",
             client => $name,
             server => $server;
         "resolv-retry ${server} with ${name}":
