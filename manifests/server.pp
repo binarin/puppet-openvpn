@@ -16,9 +16,13 @@ define openvpn::server($country, $province, $city, $organization, $email) {
     file {
         "/etc/openvpn/${name}/client-configs":
             ensure  => directory,
+            mode    => 0750,
+            owner   => root,
             require => File["/etc/openvpn/${name}"];
         "/etc/openvpn/${name}/download-configs":
             ensure  => directory,
+            mode    => 0750,
+            owner   => root,
             require => File["/etc/openvpn/${name}"];
     }
 
